@@ -1,38 +1,44 @@
 package ru.vk.sladkiipirojok.questionnairerest.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vk.sladkiipirojok.questionnairerest.repository.PollRepository;
 import ru.vk.sladkiipirojok.questionnairerest.repository.model.Poll;
+import ru.vk.sladkiipirojok.questionnairerest.service.dto.PollDTO;
 
 @Service
 public class PollService {
-    PollRepository pollRepository;
+    private final PollRepository pollRepository;
+
+    private final ModelMapper mapper;
 
     @Autowired
-    public PollService(PollRepository pollRepository) {
+    public PollService(PollRepository pollRepository, ModelMapper mapper) {
         this.pollRepository = pollRepository;
+        this.mapper = mapper;
     }
 
-    public Page<Poll> getPolls(Specification<Poll> specification, Pageable pageable) {
-        return pollRepository.findAll(specification, pageable);
+    public Page<PollDTO> getPolls(Specification<Poll> specification, Pageable pageable) {
+        return pollRepository.findAll(specification, pageable).map(poll -> mapper.map(poll, PollDTO.class));
     }
 
-    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    public long createPoll(Poll poll) {
+    @Transactional
+    public long createPoll(PollDTO pollDTO) {
+        Poll poll = mapper.map(pollDTO, Poll.class);
         mappingQuestion(poll);
         return pollRepository.save(poll).getId();
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public boolean updatePoll(Poll poll) {
+    @Transactional
+    public boolean updatePoll(long id, PollDTO pollDTO) {
+        Poll poll = mapper.map(pollDTO, Poll.class);
+        poll.setId(id);
         boolean isUpdate = false;
         if (pollRepository.findById(poll.getId()).isPresent()) {
             pollRepository.deleteById(poll.getId());
@@ -52,8 +58,8 @@ public class PollService {
         }
     }
 
-    @Transactional(isolation = Isolation.READ_UNCOMMITTED, noRollbackFor = EmptyResultDataAccessException.class)
-    public void deleteById(long id) {
+    @Transactional(noRollbackFor = EmptyResultDataAccessException.class)
+    protected void deleteById(long id) {
         pollRepository.deleteById(id);
     }
 

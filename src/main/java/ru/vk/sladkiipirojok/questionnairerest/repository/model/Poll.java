@@ -1,8 +1,6 @@
 package ru.vk.sladkiipirojok.questionnairerest.repository.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
