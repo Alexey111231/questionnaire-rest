@@ -107,7 +107,9 @@ public final class PollingController {
             @ApiResponse(code = 404, message = "Not found"),
     })
     public ResponseEntity<Void> deletePoll(@ApiParam(name = "id опроса") @PathVariable long id) {
-        return new ResponseEntity<>(pollService.deletePoll(id) ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
+        boolean pollDeleted = pollService.deletePoll(id);
+
+        return new ResponseEntity<>(pollDeleted ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
