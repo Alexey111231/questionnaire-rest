@@ -4,12 +4,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vk.sladkiipirojok.questionnairerest.repository.PollRepository;
 import ru.vk.sladkiipirojok.questionnairerest.repository.model.Poll;
+import ru.vk.sladkiipirojok.questionnairerest.service.dto.PageDTO;
+import ru.vk.sladkiipirojok.questionnairerest.service.dto.PageableDTO;
 import ru.vk.sladkiipirojok.questionnairerest.service.dto.PollDTO;
 
 @Service
@@ -24,8 +28,11 @@ public class PollService {
         this.mapper = mapper;
     }
 
-    public Page<PollDTO> getPolls(Specification<Poll> specification, Pageable pageable) {
-        return pollRepository.findAll(specification, pageable).map(poll -> mapper.map(poll, PollDTO.class));
+    public PageDTO getPolls(Specification<Poll> specification, PageableDTO pageable) {
+        Page<PollDTO> page = pollRepository
+                .findAll(specification, createPageable(pageable))
+                .map(poll -> mapper.map(poll, PollDTO.class));
+        return new PageDTO(page.getContent());
     }
 
     @Transactional
@@ -61,6 +68,13 @@ public class PollService {
     @Transactional(noRollbackFor = EmptyResultDataAccessException.class)
     protected void deleteById(long id) {
         pollRepository.deleteById(id);
+    }
+
+    private static Pageable createPageable(PageableDTO pageableDTO) {
+        return PageRequest.of(pageableDTO.getPage(),
+                pageableDTO.getSize(),
+                Sort.Direction.valueOf(pageableDTO.getOrder()),
+                pageableDTO.getSort());
     }
 
     private static void mappingQuestion(Poll poll) {

@@ -13,8 +13,9 @@ public class SpringFoxConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("ru.vk.sladkiipirojok"))
                 .paths(PathSelectors.any())
                 .build();
     }

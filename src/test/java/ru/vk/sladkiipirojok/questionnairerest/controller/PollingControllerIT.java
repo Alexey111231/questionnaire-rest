@@ -13,7 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -24,27 +25,20 @@ class PollingControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private PollingController pollingController;
-
     @Test
     @SneakyThrows
     void Get_NoSorted_BadRequestAndThrownUnsortedException() throws Exception {
         this.mockMvc.perform(get("/api/polls"))
                 .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.sort").value(TestData.UNSORTED_ERROR_MESSAGE));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
     @SneakyThrows
     void Get_ErrorFieldForSorted_BadRequestAndThrownUncorrectedError() throws Exception {
-        this.mockMvc.perform(get("/api/polls?sort=test,DESC"))
+        this.mockMvc.perform(get("/api/polls?sort=test"))
                 .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.sort").value(TestData.UNCORRECTED_FIELD_ERROR_MESSAGE));
+                .andExpect(status().isBadRequest());
     }
 
     @Test

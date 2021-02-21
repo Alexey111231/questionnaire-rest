@@ -17,8 +17,4 @@ public class TestData {
             "}\n" +
             "]\n" +
             "}";
-
-    public static final String UNSORTED_ERROR_MESSAGE = "Unsorted";
-
-    public static final String UNCORRECTED_FIELD_ERROR_MESSAGE = "Uncorrected sort field";
 }
