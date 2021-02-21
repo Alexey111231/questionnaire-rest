@@ -1,4 +1,4 @@
-package ru.vk.sladkiipirojok.questionnairerest.service.dto;
+package ru.vk.sladkiipirojok.questionnairerest.controller.dto;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

@@ -1,4 +1,4 @@
-package ru.vk.sladkiipirojok.questionnairerest.generator;
+package ru.vk.sladkiipirojok.questionnairerest.service.model.generator;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;

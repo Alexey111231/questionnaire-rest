@@ -1,4 +1,4 @@
-package ru.vk.sladkiipirojok.questionnairerest.repository.model;
+package ru.vk.sladkiipirojok.questionnairerest.service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 public final class Question {
     @Id
     @GenericGenerator(name = "UseExistingIdOtherwiseGenerateUsingIdentity",
-            strategy = "ru.vk.sladkiipirojok.questionnairerest.generator.UseExistingIdOtherwiseGenerateUsingIdentity")
+            strategy = "ru.vk.sladkiipirojok.questionnairerest.service.model.generator.UseExistingIdOtherwiseGenerateUsingIdentity")
     @GeneratedValue(generator = "UseExistingIdOtherwiseGenerateUsingIdentity")
     private Long id;
 

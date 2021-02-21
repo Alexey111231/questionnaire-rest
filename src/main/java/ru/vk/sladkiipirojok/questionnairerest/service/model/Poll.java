@@ -1,4 +1,4 @@
-package ru.vk.sladkiipirojok.questionnairerest.repository.model;
+package ru.vk.sladkiipirojok.questionnairerest.service.model;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -13,7 +13,7 @@ import java.util.Set;
 public final class Poll {
     @Id
     @GenericGenerator(name = "UseExistingIdOtherwiseGenerateUsingIdentity",
-            strategy = "ru.vk.sladkiipirojok.questionnairerest.generator.UseExistingIdOtherwiseGenerateUsingIdentity")
+            strategy = "ru.vk.sladkiipirojok.questionnairerest.service.model.generator.UseExistingIdOtherwiseGenerateUsingIdentity")
     @GeneratedValue(generator = "UseExistingIdOtherwiseGenerateUsingIdentity")
     private Long id;
 

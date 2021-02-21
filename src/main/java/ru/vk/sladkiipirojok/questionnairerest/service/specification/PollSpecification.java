@@ -1,7 +1,7 @@
-package ru.vk.sladkiipirojok.questionnairerest.specification;
+package ru.vk.sladkiipirojok.questionnairerest.service.specification;
 
 import org.springframework.data.jpa.domain.Specification;
-import ru.vk.sladkiipirojok.questionnairerest.repository.model.Poll;
+import ru.vk.sladkiipirojok.questionnairerest.service.model.Poll;
 
 import java.time.LocalDate;
 

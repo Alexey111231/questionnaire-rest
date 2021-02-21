@@ -1,4 +1,4 @@
-package ru.vk.sladkiipirojok.questionnairerest.service.dto;
+package ru.vk.sladkiipirojok.questionnairerest.controller.dto;
 
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
