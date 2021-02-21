@@ -27,7 +27,7 @@ class PollingControllerIT {
 
     @Test
     @SneakyThrows
-    void Get_NoSorted_BadRequestAndThrownUnsortedException() throws Exception {
+    void Get_NoSorted_BadRequestAndThrownUnsortedException() {
         this.mockMvc.perform(get("/api/polls"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
@@ -35,7 +35,7 @@ class PollingControllerIT {
 
     @Test
     @SneakyThrows
-    void Get_ErrorFieldForSorted_BadRequestAndThrownUncorrectedError() throws Exception {
+    void Get_ErrorFieldForSorted_BadRequestAndThrownUncorrectedError() {
         this.mockMvc.perform(get("/api/polls?sort=test"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());

@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ErrorsDTO {
     @NotEmpty
-    private final List<ErrorDTO> errors;
+    private List<ErrorDTO> errors;
 
     @Data
     @AllArgsConstructor
