@@ -112,14 +112,13 @@ public final class PollingController {
         return new ResponseEntity<>(pollDeleted ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
-    protected ErrorsDTO handleValidationExceptions(BindException ex) {
+    protected ResponseEntity<ErrorsDTO> handleValidationExceptions(BindException ex) {
         List<ErrorsDTO.ErrorDTO> errors = ex.getBindingResult()
                 .getAllErrors()
                 .stream()
                 .map(er -> new ErrorsDTO.ErrorDTO(((FieldError) er).getField(), er.getDefaultMessage()))
                 .collect(Collectors.toList());
-        return new ErrorsDTO(errors);
+        return new ResponseEntity<>(new ErrorsDTO(errors), HttpStatus.BAD_REQUEST);
     }
 }
